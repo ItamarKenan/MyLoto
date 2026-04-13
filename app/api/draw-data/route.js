@@ -3,24 +3,26 @@ import { XMLParser } from 'fast-xml-parser';
 
 export async function GET() {
   try {
-    const response = await fetch('https://admin.teleline.co.il/telexmls/hagralotxml.ashx?user=myloto', {
-      cache: 'no-store'
-    });    
-
-    const xmlText = await response.text();
     const parser = new XMLParser({
-      ignoreAttributes: false, // קריטי! אומר לו לא להתעלם מהנתונים כמו c1="J"
-      attributeNamePrefix: ""  // מנקה קידומות מיותרות כדי שהשמות יהיו נקיים (c1 ולא @_c1)
+      ignoreAttributes: false,
+      attributeNamePrefix: ""
     });
 
-    // מתרגמים בפועל!
-    const jsonObj = parser.parse(xmlText);
+    const drawsRes = await fetch('https://admin.teleline.co.il/telexmls/hagralotxml.ashx?user=myloto', { cache: 'no-store' });
+    const drawsXml = await drawsRes.text();
+    const drawsJson = parser.parse(drawsXml);
 
-    // 3. שולחים את התשובה כ-JSON נקי חזרה למי שביקש (לפרונטאנד שלנו)
-    return NextResponse.json(jsonObj);
+    const statsRes = await fetch('https://admin.teleline.co.il/telexmls/hagralotstatsxml.ashx?branch=2&amount=10', { cache: 'no-store' });
+    const statsXml = await statsRes.text();
+    const statsJson = parser.parse(statsXml);
+
+    return NextResponse.json({
+      draws: drawsJson,
+      stats: statsJson
+    });
     
   } catch (error) {
-    // אם משהו משתבש (למשל אין אינטרנט), נחזיר שגיאה מסודרת
+    console.error(error);
     return NextResponse.json({ error: 'שגיאה במשיכת הנתונים' }, { status: 500 });
   }
 }
