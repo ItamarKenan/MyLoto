@@ -19,7 +19,7 @@ const LatestDraw = ({ draw }) => {
   return (
     <div style={mobileCardContainer}>
       <div style={headerStyle}>
-        <span style={titleStyle}>הגרלת צ'אנס אחרונה</span>
+        <span style={titleStyle}>תוצאות הגרלת הצ'אנס האחרונה</span>
         <span style={idStyle}>מס' {draw.id}</span>
       </div>
 

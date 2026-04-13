@@ -47,7 +47,7 @@ const DrawArchive = ({ chances }) => {
         {foundDraw && (
           <div style={drawRow}>
             <div style={drawInfo}>
-              <span style={drawId}>הגרלה {foundDraw.id}</span>
+              <span style={drawId}>תוצאות הגרלה מס׳ {foundDraw.id}</span>
               <div style={dateTimeRow}>
                 <span>{foundDraw.date.split('T')[0].split('-').reverse().join('/')}</span>
                 <span style={{ margin: '0 5px' }}>|</span>
