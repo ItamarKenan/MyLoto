@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import LatestDraw from '../components/LatestDraw';
-import DrawArchive from '../components/DrawArchive';
+import DrawArchive from '../components/DrawArchive'
+import TopStatistics from '../components/TopStatistics';
 export default function Home() {
   const [drawData, setDrawData] = useState(null);
   const [error, setError] = useState(null);
@@ -32,6 +33,7 @@ export default function Home() {
       </header>
       <LatestDraw draw={drawData.draws.root.pais.chances.chance[0]} />   
       <DrawArchive chances={drawData.draws.root.pais.chances.chance} />
+      <TopStatistics statsData={drawData.stats} />
     </main>
   );
 }
