@@ -8,10 +8,10 @@ const LatestDraw = ({ draw }) => {
   const formattedTime = draw.date.split('T')[1].substring(0, 5);
 
   const suits = [
-    { label: '♣', color: '#333' },   
+    { label: '♠', color: '#333' },   
     { label: '♥', color: '#e44141' }, 
     { label: '♦', color: '#e44141' }, 
-    { label: '♠', color: '#333' }    
+    { label: '♣', color: '#333' }    
   ];
 
   const cards = [draw.c1, draw.c2, draw.c3, draw.c4];

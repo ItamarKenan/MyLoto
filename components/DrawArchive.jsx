@@ -23,7 +23,7 @@ const DrawArchive = ({ chances }) => {
     }
   };
 
-  const suitIcons = ['♣', '♥', '♦', '♠'];
+  const suitIcons = ['♠', '♥', '♦', '♣'];
   const suitColors = ['#333', '#e44141', '#e44141', '#333'];
 
   return (
