@@ -1,66 +1,57 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'; 
+
+import React, { useState, useEffect } from 'react';
+import LatestDraw from '../components/LatestDraw';
 
 export default function Home() {
+  const [drawData, setDrawData] = useState(null);
+  const [error, setError] = useState(null);
+
+
+  useEffect(() => {
+    fetch('/api/draw-data')
+      .then((res) => {
+        if (!res.ok) throw new Error('שגיאה בתקשורת עם השרת');
+        return res.json();
+      })
+      .then((data) => {
+        setDrawData(data);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  }, []); 
+
+  if (error) return <div style={{ color: 'red', textAlign: 'center', marginTop: '50px' }}>שגיאה: {error}</div>;
+  if (!drawData) return <div style={{ textAlign: 'center', marginTop: '50px' }}>טוען נתונים...</div>;
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main style={mainMobileWrapper}>
+      <header style={appHeader}>
+        <h1 style={logoStyle}>MyLoto</h1>
+      </header>
+      <LatestDraw draw={drawData.draws.root.pais.chances.chance[0]} />   
+    </main>
   );
 }
+
+
+const mainMobileWrapper = {
+  direction: 'rtl',             
+  backgroundColor: '#f4f7f6',    
+  minHeight: '100vh',            
+  padding: '16px',               
+  fontFamily: 'sans-serif',
+};
+
+const appHeader = {
+  textAlign: 'center',
+  padding: '20px 0',
+};
+
+const logoStyle = {
+  color: '#004a99',
+  fontSize: '28px',
+  fontWeight: 'bold',
+  margin: 0,
+};

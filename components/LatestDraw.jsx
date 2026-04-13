@@ -7,13 +7,10 @@ const LatestDraw = ({ draw }) => {
 
   return (
     <div style={mobileCardContainer}>
-      {/* כותרת קטנה ונקייה */}
       <div style={headerStyle}>
         <span style={titleStyle}>הגרלת צ'אנס אחרונה</span>
         <span style={idStyle}>מס' {draw.id}</span>
       </div>
-
-      {/* תצוגת הקלפים - המרכז של הרכיב */}
       <div style={cardsWrapper}>
         {cards.map((card, index) => (
           <div key={index} style={mobileCardStyle}>
@@ -21,8 +18,6 @@ const LatestDraw = ({ draw }) => {
           </div>
         ))}
       </div>
-
-      {/* זמן ההגרלה בתחתית */}
       <div style={timeStyle}>
         שעת הגרלה: {draw.date.split('T')[1].substring(0, 5)}
       </div>
