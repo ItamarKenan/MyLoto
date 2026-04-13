@@ -3,6 +3,17 @@ import React from 'react';
 const LatestDraw = ({ draw }) => {
   if (!draw) return null;
 
+  const dateObj = new Date(draw.date);
+  const formattedDate = dateObj.toLocaleDateString('he-IL'); 
+  const formattedTime = draw.date.split('T')[1].substring(0, 5);
+
+  const suits = [
+    { label: '♣', color: '#333' },   
+    { label: '♥', color: '#e44141' }, 
+    { label: '♦', color: '#e44141' }, 
+    { label: '♠', color: '#333' }    
+  ];
+
   const cards = [draw.c1, draw.c2, draw.c3, draw.c4];
 
   return (
@@ -11,15 +22,25 @@ const LatestDraw = ({ draw }) => {
         <span style={titleStyle}>הגרלת צ'אנס אחרונה</span>
         <span style={idStyle}>מס' {draw.id}</span>
       </div>
+
       <div style={cardsWrapper}>
-        {cards.map((card, index) => (
+        {cards.map((cardValue, index) => (
           <div key={index} style={mobileCardStyle}>
-            <span style={cardText}>{card}</span>
+            <span style={cardValueText}>{cardValue}</span>
+            <span style={{ 
+              fontSize: '20px', 
+              color: suits[index].color 
+            }}>
+              {suits[index].label}
+            </span>
           </div>
         ))}
       </div>
-      <div style={timeStyle}>
-        שעת הגרלה: {draw.date.split('T')[1].substring(0, 5)}
+
+      <div style={dateTimeContainer}>
+        <span>תאריך: <strong>{formattedDate}</strong></span>
+        <span style={divider}>|</span>
+        <span>שעה: <strong>{formattedTime}</strong></span>
       </div>
     </div>
   );
@@ -44,47 +65,47 @@ const headerStyle = {
   marginBottom: '20px',
 };
 
-const titleStyle = {
-  fontSize: '18px',
-  fontWeight: 'bold',
-  color: '#004a99',
-};
-
-const idStyle = {
-  fontSize: '14px',
-  color: '#888',
-};
-
-const cardsWrapper = {
-  display: 'flex',
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  marginBottom: '15px',
-};
+const titleStyle = { fontSize: '18px', fontWeight: 'bold', color: '#004a99' };
+const idStyle = { fontSize: '14px', color: '#888' };
+const cardsWrapper = { display: 'flex', justifyContent: 'space-around', alignItems: 'center', direction: 'ltr' };
 
 const mobileCardStyle = {
-  width: '60px',  
-  height: '85px',
-  backgroundColor: '#fdfdfd',
-  border: '2px solid #004a99',
+  width: '65px',  
+  height: '95px',
+  backgroundColor: '#fff',
+  border: '1px solid #ddd',
   borderRadius: '10px',
   display: 'flex',
+  flexDirection: 'column', 
   alignItems: 'center',
   justifyContent: 'center',
-  boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+  boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+  gap: '5px' 
 };
 
-const cardText = {
-  fontSize: '24px',
-  fontWeight: '900',
+const cardValueText = {
+  fontSize: '22px',
+  fontWeight: 'bold',
   color: '#333',
 };
 
-const timeStyle = {
+
+const dateTimeContainer = {
   textAlign: 'center',
-  fontSize: '13px',
-  color: '#999',
-  marginTop: '10px',
+  fontSize: '14px',
+  color: '#666',
+  marginTop: '20px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '10px',
+  borderTop: '1px solid #f0f0f0',
+  paddingTop: '15px'
+};
+
+const divider = {
+  color: '#ddd',
+  fontWeight: 'normal'
 };
 
 export default LatestDraw;

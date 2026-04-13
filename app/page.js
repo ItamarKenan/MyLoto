@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import LatestDraw from '../components/LatestDraw';
-
+import DrawArchive from '../components/DrawArchive';
 export default function Home() {
   const [drawData, setDrawData] = useState(null);
   const [error, setError] = useState(null);
@@ -31,6 +31,7 @@ export default function Home() {
         <h1 style={logoStyle}>MyLoto</h1>
       </header>
       <LatestDraw draw={drawData.draws.root.pais.chances.chance[0]} />   
+      <DrawArchive chances={drawData.draws.root.pais.chances.chance} />
     </main>
   );
 }
